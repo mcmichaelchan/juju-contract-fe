@@ -4,17 +4,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const App = Loadable({
   loader: () => import("./containers/App"),
-  loading: () => <p>loading...</p>
+  loading: () => <p>正在加载...</p>
 });
 
-export default class MainRouter extends React.Component {
-  render() {
-    return (
-      <Router>
-        <Switch>
-          <Route exact path="/" component={App} />
-        </Switch>
-      </Router>
-    );
-  }
-}
+export default () => (
+  <Router>
+    <Switch>
+      <Route exact path="/" component={App} />
+    </Switch>
+  </Router>
+);

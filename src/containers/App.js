@@ -9,10 +9,8 @@ const accounts = web3.eth.getAccounts();
   console.log(result[0]);
 })();
 
-class App extends Component {
-  render() {
-    return <div className="App">app</div>;
-  }
-}
+const App = props => {
+  return <div className="App">敬请期待喇</div>;
+};
 
 export default App;
