@@ -2,15 +2,18 @@ import React from "react";
 import Loadable from "react-loadable";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const App = Loadable({
-  loader: () => import("./containers/App"),
-  loading: () => <p>正在加载...</p>
+import Loading from "./components/Feedback/Loading";
+
+const Dashboard = Loadable({
+  loader: () => import("./containers/Dashboard"),
+  loading: Loading,
+  delay: 500
 });
 
 export default () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={App} />
+      <Route exact path="/" component={Dashboard} />
     </Switch>
   </Router>
 );
