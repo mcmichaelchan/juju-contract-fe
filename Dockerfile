@@ -3,7 +3,7 @@ FROM node:latest as react-build
 WORKDIR /app
 COPY . ./
 RUN yarn
-RUN if [ $stage = "idc" ]; then yarn build; else yarn dev;
+RUN if [ $stage = "idc" ]; then yarn build; else yarn dev; fi
 
 #stage 2
 FROM nginx:alpine
