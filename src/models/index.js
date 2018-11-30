@@ -1,7 +1,9 @@
 import menu from "./menu";
+import user from "./user";
 
 const stores = {
-  menu
+  menu,
+  user
 };
 
 export default stores;
