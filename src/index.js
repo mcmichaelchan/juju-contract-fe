@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider, observer } from "mobx-react";
+import ReactGA from "react-ga";
 
 import models from "./models";
 import MainRouter from "./MainRouter";
@@ -8,14 +9,8 @@ import MainRouter from "./MainRouter";
 @observer
 class Index extends React.Component {
   componentDidMount() {
-    // 未来mobx-persist
-    // const hydrate = create();
-    // // const { user } = stores;
-    // hydrate("store user", stores.user).then(data => {
-    //   if (data.isLogin) {
-    //     // nav.init()
-    //   }
-    // });
+    ReactGA.initialize("UA-130204701-1");
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }
 
   render() {
