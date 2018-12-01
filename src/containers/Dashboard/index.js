@@ -1,9 +1,9 @@
 import React from "react";
 import Loadable from "react-loadable";
 import { inject, observer } from "mobx-react";
-import { Spin, Card, Row, Col } from "antd";
+import { Spin, Card, Row, Col, Button } from "antd";
 
-import web3 from "../../utils/web3";
+import data from "../../static/data/user";
 import Loading from "../../components/Feedback/Loading";
 
 const Layout = Loadable({
@@ -13,54 +13,67 @@ const Layout = Loadable({
 });
 
 @inject(stores => ({
-  user: stores.user,
-  contracts: stores.contracts
+  contracts: stores.contracts,
+  menu: stores.menu
 }))
 @observer
 class Index extends React.Component {
-  async componentDidMount() {
-    try {
-      let accounts = await web3.eth.getAccounts();
-      let balances = await Promise.all(
-        accounts.map(x => web3.eth.getBalance(x))
-      );
-      this.props.user.initUser(accounts, balances);
-      this.props.contracts.initContractList();
-    } catch (err) {
-      console.log(err);
-    }
+  componentDidMount() {
+    this.props.contracts.initContractList();
+    this.props.menu.changeIndex("1");
   }
   render() {
     const { contracts } = this.props;
-    console.log(window.innerWidth);
     return (
-      <Layout>
+      <Layout history={this.props.history}>
         {contracts.isLoadingContract ? (
           <Spin />
         ) : (
           <div>
+            <Row type="flex" justify="end" style={{ marginBottom: 20 }}>
+              <Col>
+                <Button type="primary">新建合同</Button>
+              </Col>
+            </Row>
             <Row type="flex" justify="flex-start">
-              {Object.keys(contracts.contractList).map((key, index) => (
-                <Col key={`${index}-card`}>
-                  <Card
-                    title={key}
-                    extra={<a href="#">详情</a>}
-                    style={{
-                      width: 300,
-                      marginRight: (index + 1) % 3 === 0 ? 0 : 50
-                    }}
-                  >
-                    <p>
-                      <b>甲方单位 / </b>
-                      {contracts.contractList[key]["partyA_name"]}
-                    </p>
-                    <p>
-                      <b>职位 / </b>
-                      {contracts.contractList[key]["job"]}
-                    </p>
-                  </Card>
-                </Col>
-              ))}
+              {Object.keys(contracts.contractList).map((key, index) => {
+                return (
+                  <Col key={`${index}-card`}>
+                    <Card
+                      title={`与${
+                        data[contracts.contractList[key]["partyB"]].username
+                      }的合同`}
+                      extra={
+                        <a
+                          onClick={() => {
+                            this.props.history.push(`/detail/${key}`);
+                            this.props.menu.changeIndex("0");
+                          }}
+                        >
+                          详情
+                        </a>
+                      }
+                      style={{
+                        width: 300,
+                        marginRight: (index + 1) % 3 === 0 ? 0 : 50
+                      }}
+                    >
+                      <p>
+                        <b>甲方单位 / </b>
+                        {data[contracts.contractList[key]["partyA"]].username}
+                      </p>
+                      <p>
+                        <b>乙方单位 / </b>
+                        {data[contracts.contractList[key]["partyB"]].username}
+                      </p>
+                      <p>
+                        <b>职位 / </b>
+                        {contracts.contractList[key]["job"]}
+                      </p>
+                    </Card>
+                  </Col>
+                );
+              })}
             </Row>
           </div>
         )}

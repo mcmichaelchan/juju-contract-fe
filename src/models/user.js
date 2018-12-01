@@ -1,5 +1,6 @@
 import { action, autorun, observable, computed } from "mobx";
 import web3 from "../utils/web3";
+import user from "../static/data/user";
 
 class userSotre {
   @observable accounts = []; //string
@@ -19,6 +20,10 @@ class userSotre {
   @computed
   get isLogin() {
     return this.accounts.length > 0;
+  }
+  @computed
+  get username() {
+    return user[this.accounts[0]].username;
   }
 }
 

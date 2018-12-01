@@ -18,12 +18,12 @@ class contractsSotre {
         )
       );
       const keyList = [
-        "partyA_name",
         "start_time",
         "end_time",
         "salary",
         "job",
-        "partyA"
+        "partyA",
+        "partyB"
       ];
       summaryList.forEach((item, sIndex) => {
         let contractConverted = {};
@@ -32,7 +32,6 @@ class contractsSotre {
         });
         this.contractList[projectLists[sIndex]] = contractConverted;
       });
-      console.log(this.contractList);
     } catch (err) {
       console.log(err);
     } finally {

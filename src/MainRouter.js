@@ -10,10 +10,17 @@ const Dashboard = Loadable({
   delay: 500
 });
 
+const Detail = Loadable({
+  loader: () => import("./containers/Detail"),
+  loading: Loading,
+  delay: 500
+});
+
 export default () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Dashboard} />
+      <Route exact path="/detail/:id" component={Detail} />
     </Switch>
   </Router>
 );
