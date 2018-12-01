@@ -21,17 +21,6 @@ class MCLayout extends React.Component {
             alignItems: "center"
           }}
         >
-          {/* <h1
-            className="logo"
-            style={{
-              color: "#FFF",
-              fontSize: 22,
-              fontWeight: "normal",
-              marginRight: 50
-            }}
-          >
-            Juju Contract
-          </h1> */}
           <img
             src={require("../static/images/logo.png")}
             alt="logo"
@@ -86,8 +75,22 @@ class MCLayout extends React.Component {
             )}
           </div>
         </Header>
-        <Content style={{ padding: "0 50px" }}>
-          <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+        <Content
+          style={{
+            padding: "0 50px",
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: 24,
+              minHeight: 280,
+              width: 1050,
+              marginTop: 50
+            }}
+          >
             {children}
           </div>
         </Content>
