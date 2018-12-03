@@ -17,14 +17,7 @@ class contractsSotre {
             .call()
         )
       );
-      const keyList = [
-        "start_time",
-        "end_time",
-        "salary",
-        "job",
-        "partyA",
-        "partyB"
-      ];
+      const keyList = ["job", "partyA", "partyB", "name"];
       summaryList.forEach((item, sIndex) => {
         let contractConverted = {};
         keyList.forEach((key, kIndex) => {

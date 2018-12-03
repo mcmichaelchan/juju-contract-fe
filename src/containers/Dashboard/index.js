@@ -40,9 +40,7 @@ class Index extends React.Component {
                 return (
                   <Col key={`${index}-card`}>
                     <Card
-                      title={`与${
-                        data[contracts.contractList[key]["partyB"]].username
-                      }的合同`}
+                      title={contracts.contractList[key]["name"]}
                       extra={
                         <a
                           onClick={() => {
