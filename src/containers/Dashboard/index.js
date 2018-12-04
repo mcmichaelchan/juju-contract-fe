@@ -32,7 +32,12 @@ class Index extends React.Component {
           <div>
             <Row type="flex" justify="end" style={{ marginBottom: 20 }}>
               <Col>
-                <Button type="primary">新建合同</Button>
+                <Button
+                  type="primary"
+                  onClick={() => this.props.history.push("/create")}
+                >
+                  新建合同
+                </Button>
               </Col>
             </Row>
             <Row type="flex" justify="flex-start">

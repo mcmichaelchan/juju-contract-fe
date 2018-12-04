@@ -12,6 +12,7 @@ const { Header, Content, Footer } = Layout;
 class MCLayout extends React.Component {
   render() {
     const { children, menu, user } = this.props;
+    console.log(user.accounts);
     return (
       <Layout className="layout" style={{ height: "100%" }}>
         <Header
@@ -75,7 +76,10 @@ class MCLayout extends React.Component {
                 <Row type="flex">
                   <Col>
                     <Avatar
-                      style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
+                      style={{
+                        color: "#f56a00",
+                        backgroundColor: "#fde3cf"
+                      }}
                     >
                       {user.username.slice(0, 1).toUpperCase()}
                     </Avatar>
@@ -127,13 +131,17 @@ class MCLayout extends React.Component {
           }}
         >
           <div
-            style={{
-              background: "#fff",
-              padding: 24,
-              minHeight: 280,
-              width: 1050,
-              marginTop: 50
-            }}
+            style={Object.assign(
+              {},
+              {
+                background: "#fff",
+                padding: 24,
+                minHeight: 280,
+                width: 1050,
+                marginTop: 50
+              },
+              this.props.style
+            )}
           >
             {children}
           </div>

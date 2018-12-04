@@ -1,7 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 import { inject, observer } from "mobx-react";
-import { Spin, Divider, Tabs } from "antd";
+import { Spin, Divider, Tabs, Tag } from "antd";
 
 import data from "../../static/data/user";
 import Loading from "../../components/Feedback/Loading";
@@ -30,10 +30,6 @@ class Index extends React.Component {
     this.props.menu.changeIndex("0");
     this.props.contract.initDetail(this.props.match.params.id);
   }
-
-  callBack = e => {
-    console.log(e);
-  };
   render() {
     const { contract } = this.props;
     console.log(data, contract.detail["partyA"]);
@@ -43,7 +39,13 @@ class Index extends React.Component {
           <Spin />
         ) : (
           <React.Fragment>
-            <h2>{contract.detail["name"]}</h2>
+            <h2>
+              {contract.detail["name"]}
+              <Tag color="green" style={{ marginLeft: 10 }}>
+                已完成
+              </Tag>
+            </h2>
+
             <div style={{ width: "40%", margin: "50px 0 50px 0" }}>
               <Divider orientation="left">基本信息</Divider>
               <h5>

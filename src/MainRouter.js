@@ -16,11 +16,18 @@ const Detail = Loadable({
   delay: 500
 });
 
+const Create = Loadable({
+  loader: () => import("./containers/Create"),
+  loading: Loading,
+  delay: 500
+});
+
 export default () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Dashboard} />
       <Route exact path="/detail/:id" component={Detail} />
+      <Route exact path="/create" component={Create} />
     </Switch>
   </Router>
 );
