@@ -20,8 +20,8 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "PUBLIC_URL=http://piw8jbyeb.bkt.clouddn.com react-app-rewired build",
-    "dev": "react-app-rewired build",
+    "build": "PUBLIC_URL=http://contract.idc.cdn.jmmc.org.cn react-app-rewired build",
+    "dev": "PUBLIC_URL=http://contract.dev.cdn.jmmc.org.cn react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },

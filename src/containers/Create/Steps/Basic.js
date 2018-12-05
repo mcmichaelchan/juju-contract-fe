@@ -66,6 +66,9 @@ class Basic extends React.Component {
               <Option value="0x1a6cD6003BE2F25293230bdB52981762b00752A8">
                 michael
               </Option>
+              <Option value="0xB80Cd42c0Fd3BA19C5094833db6a592407316346">
+                米高
+              </Option>
             </Select>
           )}
         </FormItem>
