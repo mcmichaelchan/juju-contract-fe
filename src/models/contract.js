@@ -1,16 +1,16 @@
 import { action, autorun, observable, computed } from "mobx";
 import getContractList from "../utils/getContractList";
 import getContract from "../utils/getContract";
+import { message } from "antd";
 
 import user from "./user";
-
-import moment from "moment";
 
 class contractSotre {
   @observable address = "";
   @observable isLoading = false;
   @observable detail = {};
   @observable status = 0;
+  @observable isCreating = false;
   @action.bound
   async initDetail(address) {
     this.address = address;
@@ -38,10 +38,10 @@ class contractSotre {
       this.isLoading = false;
     }
   }
-
+  @action.bound
   async createContract(config) {
     try {
-      console.log("hi");
+      this.isCreating = true;
       const result = await getContractList.methods
         .createLaborContract(
           config.start_date.format("x"),
@@ -53,8 +53,11 @@ class contractSotre {
         )
         .send({ from: user.accounts[0], gas: "5000000" });
       console.log(result);
+      message.success("创建成功", 2);
     } catch (err) {
-      console.log(err);
+      message.error(err.message, 2);
+    } finally {
+      this.isCreating = false;
     }
   }
 }

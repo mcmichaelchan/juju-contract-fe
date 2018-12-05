@@ -1,11 +1,13 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
-import { Form, Input, Select, DatePicker, Button } from "antd";
+import { Form, Input, Select, DatePicker, Button, Spin, Icon } from "antd";
 
-import data from "../../../static/data/user";
+import data from "../../static/data/user";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+
+const loadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 @inject(stores => ({
   user: stores.user,
@@ -41,7 +43,7 @@ class Basic extends React.Component {
       }
     };
     const { getFieldDecorator } = this.props.form;
-    const provinceData = ["Zhejiang", "Jiangsu"];
+    const { contract, user } = this.props;
     return (
       <Form
         onSubmit={this.handleSubmit}
@@ -50,9 +52,7 @@ class Basic extends React.Component {
       >
         <FormItem {...formItemLayout} label="甲方">
           <span className="ant-form-text">
-            {data[this.props.user.accounts[0]]
-              ? data[this.props.user.accounts[0]].username
-              : ""}
+            {data[user.accounts[0]] ? data[user.accounts[0]].username : ""}
           </span>
         </FormItem>
         <FormItem {...formItemLayout} label="乙方">
@@ -98,8 +98,16 @@ class Basic extends React.Component {
           })(<DatePicker style={{ width: "100%" }} />)}
         </FormItem>
         <FormItem wrapperCol={{ span: 12, offset: 12 }}>
-          <Button type="primary" htmlType="submit">
-            确定创建
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={contract.isCreating}
+          >
+            {contract.isCreating ? (
+              <Spin indicator={loadingIcon} />
+            ) : (
+              "确定创建"
+            )}
           </Button>
         </FormItem>
       </Form>
