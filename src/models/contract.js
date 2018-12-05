@@ -11,6 +11,7 @@ class contractSotre {
   @observable detail = {};
   @observable status = 0;
   @observable isCreating = false;
+  @observable history = [];
   @action.bound
   async initDetail(address) {
     this.address = address;
@@ -31,7 +32,22 @@ class contractSotre {
       key.forEach((item, index) => {
         this.detail[item] = detail[index];
       });
-      console.log(this.detail);
+      const historyLength = await getContract(this.address)
+        .methods.getHistoryLength()
+        .call();
+      this.history = [];
+      for (let i = 0; i < historyLength; i++) {
+        const history = await getContract(this.address)
+          .methods.getHistory(i)
+          .call();
+        this.history.push({
+          operator: history[0],
+          time: history[1],
+          type: history[2],
+          content: history[3]
+        });
+      }
+      console.log(this.history);
     } catch (err) {
       console.log(err);
     } finally {
@@ -39,7 +55,7 @@ class contractSotre {
     }
   }
   @action.bound
-  async createContract(config) {
+  async createContract(config, history) {
     try {
       this.isCreating = true;
       const result = await getContractList.methods
@@ -52,8 +68,9 @@ class contractSotre {
           config.name
         )
         .send({ from: user.accounts[0], gas: "5000000" });
-      console.log(result);
+      const projectLists = await getContractList.methods.getContracts().call();
       message.success("创建成功", 2);
+      history.push(`/sign/${projectLists[projectLists.length - 1]}`);
     } catch (err) {
       message.error(err.message, 2);
     } finally {

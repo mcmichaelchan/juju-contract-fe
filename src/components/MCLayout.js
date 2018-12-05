@@ -12,7 +12,6 @@ const { Header, Content, Footer } = Layout;
 class MCLayout extends React.Component {
   render() {
     const { children, menu, user } = this.props;
-    console.log(user.accounts);
     return (
       <Layout className="layout" style={{ height: "100%" }}>
         <Header

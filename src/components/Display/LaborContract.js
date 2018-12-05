@@ -15,7 +15,7 @@ export default class LaborContract extends React.Component {
       job
     } = this.props;
     return (
-      <div style={{ height: 450, overflowY: "scroll" }}>
+      <div style={{ height: 450, overflowY: "scroll", padding: 20 }}>
         <h1>劳动合同</h1>
         甲方：<u> {partyA_name} </u>
         <br />

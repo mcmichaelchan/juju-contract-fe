@@ -1,7 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 import { inject, observer } from "mobx-react";
-import { Spin, Divider, Tabs, Tag } from "antd";
+import { Spin, Divider, Tabs, Tag, List, Avatar } from "antd";
 
 import data from "../../static/data/user";
 import Loading from "../../components/Feedback/Loading";
@@ -84,7 +84,32 @@ class Index extends React.Component {
               style={{ height: 510 }}
             >
               <TabPane tab="操作记录" key="1">
-                Content of Tab Pane 1
+                <List
+                  itemLayout="horizontal"
+                  dataSource={contract.history}
+                  renderItem={item => (
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={
+                          <Avatar
+                            style={{
+                              color: "#f56a00",
+                              backgroundColor: "#fde3cf"
+                            }}
+                          >
+                            {data[item.operator]
+                              ? data[item.operator].username
+                                  .slice(0, 1)
+                                  .toUpperCase()
+                              : ""}
+                          </Avatar>
+                        }
+                        title={<h4>{item.content}</h4>}
+                        description={`操作时间${item.time}`}
+                      />
+                    </List.Item>
+                  )}
+                />
               </TabPane>
               <TabPane tab="合同原文" key="2" style={{}}>
                 <LaborContract

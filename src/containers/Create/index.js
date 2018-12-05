@@ -39,7 +39,7 @@ class Index extends React.Component {
           <Step title="完成" />
         </Steps>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Basic />
+          <Basic history={this.props.history} />
         </div>
       </Layout>
     );

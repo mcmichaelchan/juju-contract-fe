@@ -1,7 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
-import { observer, inject } from "mobx-react";
-import { Steps } from "antd";
+import { inject, observer } from "mobx-react";
+import { Spin, Divider, Tabs, Tag, Steps } from "antd";
 
 import data from "../../static/data/user";
 import Loading from "../../components/Feedback/Loading";
@@ -12,6 +12,13 @@ const Layout = Loadable({
   delay: 500
 });
 
+const LaborContract = Loadable({
+  loader: () => import("../../components/Display/LaborContract"),
+  loading: Loading,
+  delay: 500
+});
+
+const TabPane = Tabs.TabPane;
 const Step = Steps.Step;
 
 @inject(stores => ({
@@ -26,14 +33,72 @@ class Index extends React.Component {
   }
   render() {
     const { contract } = this.props;
+    console.log(data, contract.detail["partyA"]);
     return (
-      <Layout style={{ padding: 60 }} history={this.props.history}>
-        <Steps size="small" current={1} style={{ marginBottom: 60 }}>
-          <Step title="填写合同基本信息" />
-          <Step title="双方签名" />
-          <Step title="完成" />
-        </Steps>
-        <div style={{ display: "flex", justifyContent: "center" }} />
+      <Layout history={this.props.history}>
+        {contract.isLoading ? (
+          <Spin />
+        ) : (
+          <React.Fragment>
+            <Steps size="small" current={1} style={{ marginBottom: 60 }}>
+              <Step title="填写合同基本信息" />
+              <Step title="双方签名" />
+              <Step title="完成" />
+            </Steps>
+
+            <div style={{ width: "40%", margin: "50px 0 50px 0" }}>
+              <Divider orientation="left">基本信息</Divider>
+              <h5>
+                <b>合同名称 / </b>
+                {contract.detail["name"]}
+              </h5>
+              <h5>
+                <b>合同地址 / </b>
+                {this.props.match.params.id}
+              </h5>
+
+              <h5>
+                <b>甲方用户名 / </b>
+                {data[contract.detail["partyA"]]
+                  ? data[contract.detail["partyA"]].username
+                  : null}
+              </h5>
+              <h5>
+                <b>甲方地址 / </b>
+                {contract.detail["partyA"]}
+              </h5>
+              <h5>
+                <b>甲方地址 / </b>
+                {contract.detail["partyA"]}
+              </h5>
+              <h5>
+                <b>乙方用户名 / </b>
+                {data[contract.detail["partyB"]]
+                  ? data[contract.detail["partyB"]].username
+                  : null}
+              </h5>
+              <h5>
+                <b>乙方地址 / </b>
+                {contract.detail["partyB"]}
+              </h5>
+            </div>
+            <section style={{ border: "solid 1px gainsboro" }}>
+              <LaborContract
+                partyA_name={
+                  data[contract.detail["partyA"]]
+                    ? data[contract.detail["partyA"]].username
+                    : null
+                }
+                partyB_name={
+                  data[contract.detail["partyB"]]
+                    ? data[contract.detail["partyB"]].username
+                    : null
+                }
+                {...contract.detail}
+              />
+            </section>
+          </React.Fragment>
+        )}
       </Layout>
     );
   }

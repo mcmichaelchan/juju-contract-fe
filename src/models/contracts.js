@@ -10,6 +10,7 @@ class contractsSotre {
     try {
       this.isLoadingContract = true;
       const projectLists = await getContractList.methods.getContracts().call();
+      console.log(projectLists);
       const summaryList = await Promise.all(
         projectLists.map(address =>
           getContract(address)

@@ -19,7 +19,7 @@ class Basic extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.contract.createContract(values);
+        this.props.contract.createContract(values, this.props.history);
       }
     });
   };
