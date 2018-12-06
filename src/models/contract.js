@@ -12,6 +12,7 @@ class contractSotre {
   @observable status = 0;
   @observable isCreating = false;
   @observable history = [];
+  @observable sign = [];
   @action.bound
   async initDetail(address) {
     this.address = address;
@@ -20,6 +21,7 @@ class contractSotre {
       const detail = await getContract(this.address)
         .methods.getDetail()
         .call();
+      console.log(detail);
       const key = [
         "startDate",
         "endDate",
@@ -27,7 +29,8 @@ class contractSotre {
         "job",
         "partyA",
         "partyB",
-        "name"
+        "name",
+        "status"
       ];
       key.forEach((item, index) => {
         this.detail[item] = detail[index];
@@ -47,7 +50,17 @@ class contractSotre {
           content: history[3]
         });
       }
-      console.log(this.history);
+      const signLength = await getContract(this.address)
+        .methods.getSignHistoryLength()
+        .call();
+      this.sign = [];
+      for (let i = 0; i < signLength; i++) {
+        const sign = await getContract(this.address)
+          .methods.getSignHistory(i)
+          .call();
+        this.sign.push({ signer: sign[0], time: sign[1] });
+      }
+      console.log(this.sign, "what");
     } catch (err) {
       console.log(err);
     } finally {

@@ -31,7 +31,7 @@ const Sign = Loadable({
 export default () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={Dashboard} />
+      <Route exact path="/contracts/:status" component={Dashboard} />
       <Route exact path="/detail/:id" component={Detail} />
       <Route exact path="/sign/:id" component={Sign} />
       <Route exact path="/create" component={Create} />

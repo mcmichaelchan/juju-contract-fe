@@ -2,6 +2,7 @@ import React from "react";
 import Loadable from "react-loadable";
 import { inject, observer } from "mobx-react";
 import { Spin, Divider, Tabs, Tag, List, Avatar } from "antd";
+import moment from "moment";
 
 import data from "../../static/data/user";
 import Loading from "../../components/Feedback/Loading";
@@ -41,8 +42,13 @@ class Index extends React.Component {
           <React.Fragment>
             <h2>
               {contract.detail["name"]}
-              <Tag color="green" style={{ marginLeft: 10 }}>
-                已完成
+              <Tag
+                color={
+                  contract.detail["status"] === "sign" ? "orange" : "green"
+                }
+                style={{ marginLeft: 10 }}
+              >
+                {contract.detail["status"] === "sign" ? "待完成" : "已完成"}
               </Tag>
             </h2>
 
@@ -105,7 +111,7 @@ class Index extends React.Component {
                           </Avatar>
                         }
                         title={<h4>{item.content}</h4>}
-                        description={`操作时间${item.time}`}
+                        description={`${moment(item.time, "X").fromNow()}`}
                       />
                     </List.Item>
                   )}

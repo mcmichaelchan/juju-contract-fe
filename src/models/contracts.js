@@ -6,9 +6,10 @@ class contractsSotre {
   @observable contractList = {};
   @observable isLoadingContract = false;
   @action.bound
-  async initContractList() {
+  async initContractList(status) {
     try {
       this.isLoadingContract = true;
+      this.contractList = {};
       const projectLists = await getContractList.methods.getContracts().call();
       console.log(projectLists);
       const summaryList = await Promise.all(
@@ -18,13 +19,19 @@ class contractsSotre {
             .call()
         )
       );
-      const keyList = ["job", "partyA", "partyB", "name"];
+      const keyList = ["job", "partyA", "partyB", "name", "status"];
       summaryList.forEach((item, sIndex) => {
         let contractConverted = {};
         keyList.forEach((key, kIndex) => {
           contractConverted[key] = summaryList[sIndex][kIndex];
         });
-        this.contractList[projectLists[sIndex]] = contractConverted;
+        if (
+          status === "all" ||
+          (status === "pending" && contractConverted.status === "sign") ||
+          (status === "finished" && contractConverted.status === "finish")
+        ) {
+          this.contractList[projectLists[sIndex]] = contractConverted;
+        }
       });
     } catch (err) {
       console.log(err);

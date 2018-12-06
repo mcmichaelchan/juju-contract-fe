@@ -43,7 +43,7 @@ class MCLayout extends React.Component {
               <Menu.Item
                 key="1"
                 onClick={() => {
-                  this.props.history.push("/");
+                  this.props.history.push("/contracts/all");
                   this.props.menu.changeIndex("1");
                 }}
               >
@@ -51,13 +51,19 @@ class MCLayout extends React.Component {
               </Menu.Item>
               <Menu.Item
                 key="2"
-                onClick={() => this.props.menu.changeIndex("2")}
+                onClick={() => {
+                  this.props.history.push("/contracts/pending");
+                  this.props.menu.changeIndex("2");
+                }}
               >
                 待完成
               </Menu.Item>
               <Menu.Item
                 key="3"
-                onClick={() => this.props.menu.changeIndex("3")}
+                onClick={() => {
+                  this.props.history.push("/contracts/finished");
+                  this.props.menu.changeIndex("3");
+                }}
               >
                 已完成
               </Menu.Item>

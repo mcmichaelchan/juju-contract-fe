@@ -1,7 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 import { inject, observer } from "mobx-react";
-import { Spin, Card, Row, Col, Button } from "antd";
+import { Spin, Card, Row, Col, Button, Tag } from "antd";
 
 import data from "../../static/data/user";
 import Loading from "../../components/Feedback/Loading";
@@ -19,8 +19,28 @@ const Layout = Loadable({
 @observer
 class Index extends React.Component {
   componentDidMount() {
-    this.props.contracts.initContractList();
-    this.props.menu.changeIndex("1");
+    this.props.contracts.initContractList(this.props.match.params.status);
+    switch (this.props.match.params.status) {
+      case "all": {
+        this.props.menu.changeIndex("1");
+        break;
+      }
+      case "pending": {
+        this.props.menu.changeIndex("2");
+        break;
+      }
+      case "finished": {
+        this.props.menu.changeIndex("3");
+        break;
+      }
+      default:
+        break;
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.match.params.status !== this.props.match.params.status) {
+      this.props.contracts.initContractList(newProps.match.params.status);
+    }
   }
   render() {
     const { contracts } = this.props;
@@ -47,14 +67,34 @@ class Index extends React.Component {
                     <Card
                       title={contracts.contractList[key]["name"]}
                       extra={
-                        <a
-                          onClick={() => {
-                            this.props.history.push(`/detail/${key}`);
-                            this.props.menu.changeIndex("0");
-                          }}
-                        >
-                          详情
-                        </a>
+                        <div>
+                          <Tag
+                            color={
+                              contracts.contractList[key]["status"] === "sign"
+                                ? "orange"
+                                : "green"
+                            }
+                          >
+                            {contracts.contractList[key]["status"] === "sign"
+                              ? "待完成"
+                              : "已完成"}
+                          </Tag>
+                          <a
+                            onClick={() => {
+                              if (
+                                contracts.contractList[key]["status"] === "sign"
+                              ) {
+                                this.props.history.push(`/sign/${key}`);
+                              } else {
+                                this.props.history.push(`/detail/${key}`);
+                              }
+
+                              this.props.menu.changeIndex("0");
+                            }}
+                          >
+                            详情
+                          </a>
+                        </div>
                       }
                       style={{
                         width: 300,

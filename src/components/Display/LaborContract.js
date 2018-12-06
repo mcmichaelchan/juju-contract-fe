@@ -29,8 +29,8 @@ export default class LaborContract extends React.Component {
         <br />
         <br />
         一、劳动合同期限第一条本合同从
-        <u> {moment(1543855493097).format("ll")} </u>至
-        <u> {moment(1543855493097).format("ll")} </u>
+        <u> {moment(startDate, "x").format("ll")} </u>至
+        <u> {moment(endDate, "x").format("ll")} </u>
         为期限的劳动合同。
         <br />
         <br />
