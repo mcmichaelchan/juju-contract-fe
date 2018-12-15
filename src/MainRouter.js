@@ -1,6 +1,11 @@
 import React from "react";
 import Loadable from "react-loadable";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 import Loading from "./components/Feedback/Loading";
 
@@ -40,8 +45,9 @@ export default () => (
       <Route exact path="/contracts/:status" component={Dashboard} />
       <Route exact path="/detail/:id" component={Detail} />
       <Route exact path="/sign/:id" component={Sign} />
-      <Route exact path="/finish/:id" component={Finish} />
+      <Route exact path="/success/:id" component={Finish} />
       <Route exact path="/create" component={Create} />
+      <Redirect from="/" to="/contracts/all" />
     </Switch>
   </Router>
 );

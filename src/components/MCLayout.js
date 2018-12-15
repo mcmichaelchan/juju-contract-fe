@@ -34,9 +34,6 @@ class MCLayout extends React.Component {
               alt="logo"
               style={{ width: 100, height: 40, marginRight: 50 }}
             />
-            {process.env.REACT_APP_STATUS === "DEV" ? (
-              <p style={{ color: "white" }}>dev</p>
-            ) : null}
             <Menu
               theme="dark"
               mode="horizontal"

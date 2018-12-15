@@ -2,6 +2,8 @@ import { action, autorun, observable, computed } from "mobx";
 import getContractList from "../utils/getContractList";
 import getContract from "../utils/getContract";
 
+import user from "./user";
+
 class contractsSotre {
   @observable contractList = {};
   @observable isLoadingContract = false;
@@ -26,9 +28,11 @@ class contractsSotre {
           contractConverted[key] = summaryList[sIndex][kIndex];
         });
         if (
-          status === "all" ||
-          (status === "pending" && contractConverted.status === "sign") ||
-          (status === "finished" && contractConverted.status === "finish")
+          (status === "all" ||
+            (status === "pending" && contractConverted.status === "sign") ||
+            (status === "finished" && contractConverted.status === "finish")) &&
+          (contractConverted.partyA === user.accounts[0] ||
+            contractConverted.partyB === user.accounts[0])
         ) {
           this.contractList[projectLists[sIndex]] = contractConverted;
         }

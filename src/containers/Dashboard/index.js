@@ -51,72 +51,114 @@ class Index extends React.Component {
         ) : (
           <div>
             <Row type="flex" justify="end" style={{ marginBottom: 20 }}>
-              <Col>
-                <Button
-                  type="primary"
-                  onClick={() => this.props.history.push("/create")}
-                >
-                  新建合同
-                </Button>
-              </Col>
+              {this.props.match.params.status === "all" ? (
+                <Col>
+                  <Button
+                    type="primary"
+                    onClick={() => this.props.history.push("/create")}
+                  >
+                    新建合同
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
             <Row type="flex" justify="flex-start">
-              {Object.keys(contracts.contractList).map((key, index) => {
-                return (
-                  <Col key={`${index}-card`}>
-                    <Card
-                      title={contracts.contractList[key]["name"]}
-                      extra={
-                        <div>
-                          <Tag
-                            color={
-                              contracts.contractList[key]["status"] === "sign"
-                                ? "orange"
-                                : "green"
-                            }
-                          >
-                            {contracts.contractList[key]["status"] === "sign"
-                              ? "待完成"
-                              : "已完成"}
-                          </Tag>
-                          <a
-                            onClick={() => {
-                              if (
-                                contracts.contractList[key]["status"] === "sign"
-                              ) {
-                                this.props.history.push(`/sign/${key}`);
-                              } else {
-                                this.props.history.push(`/detail/${key}`);
-                              }
+              {Object.keys(contracts.contractList).length > 0 ? (
+                Object.keys(contracts.contractList)
+                  .reverse()
+                  .map((key, index) => {
+                    return (
+                      <Col key={`${index}-card`}>
+                        <Card
+                          title={contracts.contractList[key]["name"]}
+                          extra={
+                            <div>
+                              <Tag
+                                color={
+                                  contracts.contractList[key]["status"] ===
+                                  "sign"
+                                    ? "orange"
+                                    : "green"
+                                }
+                              >
+                                {contracts.contractList[key]["status"] ===
+                                "sign"
+                                  ? "待完成"
+                                  : "已完成"}
+                              </Tag>
+                              <a
+                                onClick={() => {
+                                  if (
+                                    contracts.contractList[key]["status"] ===
+                                    "sign"
+                                  ) {
+                                    this.props.history.push(`/sign/${key}`);
+                                  } else {
+                                    this.props.history.push(`/detail/${key}`);
+                                  }
 
-                              this.props.menu.changeIndex("0");
-                            }}
-                          >
-                            详情
-                          </a>
-                        </div>
-                      }
-                      style={{
-                        width: 300,
-                        marginRight: (index + 1) % 3 === 0 ? 0 : 50
-                      }}
-                    >
-                      <p>
-                        <b>甲方单位 / </b>
-                        {data[contracts.contractList[key]["partyA"]].username}
-                      </p>
-                      <p>
-                        <b>乙方单位 / </b>
-                        {data[contracts.contractList[key]["partyB"]].username}
-                      </p>
-                      <p>
-                        <b>职位 / </b>
-                        {contracts.contractList[key]["job"]}
-                      </p>
-                    </Card>
-                  </Col>
-                );
-              })}
+                                  this.props.menu.changeIndex("0");
+                                }}
+                              >
+                                详情
+                              </a>
+                            </div>
+                          }
+                          style={{
+                            width: 300,
+                            marginRight: (index + 1) % 3 === 0 ? 0 : 50,
+                            marginBottom: 40
+                          }}
+                        >
+                          <p>
+                            <b>甲方单位 / </b>
+                            {
+                              data[contracts.contractList[key]["partyA"]]
+                                .username
+                            }
+                          </p>
+                          <p>
+                            <b>乙方单位 / </b>
+                            {
+                              data[contracts.contractList[key]["partyB"]]
+                                .username
+                            }
+                          </p>
+                          <p>
+                            <b>职位 / </b>
+                            {contracts.contractList[key]["job"]}
+                          </p>
+                        </Card>
+                      </Col>
+                    );
+                  })
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    width: "100%",
+                    height: "100%"
+                  }}
+                >
+                  <img
+                    src={require("../../static/images/blank.png")}
+                    alt="blank-img"
+                    style={{ width: 200 }}
+                  />
+                  <h4
+                    style={{
+                      color: "rgba(0,0,0,0.5)",
+                      fontSize: 20,
+                      marginTop: 20
+                    }}
+                  >
+                    暂时没有合同
+                  </h4>
+                </div>
+              )}
             </Row>
           </div>
         )}
