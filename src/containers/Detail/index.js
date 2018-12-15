@@ -33,7 +33,6 @@ class Index extends React.Component {
   }
   render() {
     const { contract } = this.props;
-    console.log(data, contract.detail["partyA"]);
     return (
       <Layout history={this.props.history}>
         {contract.isLoading ? (

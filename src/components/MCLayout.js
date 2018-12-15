@@ -13,7 +13,7 @@ class MCLayout extends React.Component {
   render() {
     const { children, menu, user } = this.props;
     return (
-      <Layout className="layout" style={{ height: "100%" }}>
+      <Layout className="layout" style={{ minHeight: "100%" }}>
         <Header
           style={{
             display: "flex",
@@ -34,6 +34,9 @@ class MCLayout extends React.Component {
               alt="logo"
               style={{ width: 100, height: 40, marginRight: 50 }}
             />
+            {process.env.REACT_APP_STATUS === "DEV" ? (
+              <p style={{ color: "white" }}>dev</p>
+            ) : null}
             <Menu
               theme="dark"
               mode="horizontal"
@@ -81,10 +84,7 @@ class MCLayout extends React.Component {
                 <Row type="flex">
                   <Col>
                     <Avatar
-                      style={{
-                        color: "#f56a00",
-                        backgroundColor: "#fde3cf"
-                      }}
+                      style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
                     >
                       {user.username.slice(0, 1).toUpperCase()}
                     </Avatar>
@@ -143,7 +143,8 @@ class MCLayout extends React.Component {
                 padding: 24,
                 minHeight: 280,
                 width: 1050,
-                marginTop: 50
+                marginTop: 50,
+                minHeight: 500
               },
               this.props.style
             )}

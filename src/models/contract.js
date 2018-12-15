@@ -1,9 +1,10 @@
-import { action, autorun, observable, computed } from "mobx";
+import { action, observable, computed } from "mobx";
 import getContractList from "../utils/getContractList";
 import getContract from "../utils/getContract";
 import { message } from "antd";
 
 import user from "./user";
+import data from "../static/data/user";
 
 class contractSotre {
   @observable address = "";
@@ -13,6 +14,28 @@ class contractSotre {
   @observable isCreating = false;
   @observable history = [];
   @observable sign = [];
+  @observable isSigning = false;
+  @action.bound
+  getSignHistory() {
+    return new Promise(async (res, rej) => {
+      try {
+        const signLength = await getContract(this.address)
+          .methods.getSignHistoryLength()
+          .call();
+        this.sign = [];
+        for (let i = 0; i < signLength; i++) {
+          const sign = await getContract(this.address)
+            .methods.getSignHistory(i)
+            .call();
+          this.sign.push({ signer: sign[0], time: sign[1] });
+        }
+        res();
+      } catch (err) {
+        console.log(err);
+        rej();
+      }
+    });
+  }
   @action.bound
   async initDetail(address) {
     this.address = address;
@@ -21,7 +44,6 @@ class contractSotre {
       const detail = await getContract(this.address)
         .methods.getDetail()
         .call();
-      console.log(detail);
       const key = [
         "startDate",
         "endDate",
@@ -50,17 +72,7 @@ class contractSotre {
           content: history[3]
         });
       }
-      const signLength = await getContract(this.address)
-        .methods.getSignHistoryLength()
-        .call();
-      this.sign = [];
-      for (let i = 0; i < signLength; i++) {
-        const sign = await getContract(this.address)
-          .methods.getSignHistory(i)
-          .call();
-        this.sign.push({ signer: sign[0], time: sign[1] });
-      }
-      console.log(this.sign, "what");
+      await this.getSignHistory();
     } catch (err) {
       console.log(err);
     } finally {
@@ -89,6 +101,61 @@ class contractSotre {
     } finally {
       this.isCreating = false;
     }
+  }
+
+  @action.bound
+  async signContract(history) {
+    try {
+      this.isSigning = true;
+      const result = await getContract(this.address)
+        .methods.sign()
+        .send({ from: user.accounts[0], gas: "5000000" });
+      await this.getSignHistory();
+      if (this.sign.length === 2) {
+        // 如果双方都已经签名成功
+        history.push(`/success/${this.address}`);
+      } else {
+        message.success("签名成功", 2);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.isSigning = false;
+    }
+  }
+
+  @computed
+  get signData() {
+    let result = [
+      {
+        id: "甲方",
+        user: data[this.detail["partyA"]]
+          ? data[this.detail["partyA"]].username
+          : ""
+      },
+      {
+        id: "乙方",
+        user: data[this.detail["partyB"]]
+          ? data[this.detail["partyB"]].username
+          : ""
+      }
+    ];
+    let signUser = this.sign.map(item => item.signer);
+    //首先确定用户是哪一方
+    let userIsA = this.detail["partyA"] === user.accounts[0];
+    if (userIsA) {
+      result[0].status =
+        signUser.indexOf(this.detail["partyA"]) === -1 ? "ready" : "finish";
+      result[1].status =
+        signUser.indexOf(this.detail["partyB"]) === -1 ? "waiting" : "finish";
+    } else {
+      result[0].status =
+        signUser.indexOf(this.detail["partyA"]) === -1 ? "waiting" : "finish";
+      result[1].status =
+        signUser.indexOf(this.detail["partyB"]) === -1 ? "ready" : "finish";
+    }
+    //判断sign纪录里面有没有用户
+    return result;
   }
 }
 

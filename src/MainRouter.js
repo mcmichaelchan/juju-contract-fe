@@ -28,12 +28,19 @@ const Sign = Loadable({
   delay: 500
 });
 
+const Finish = Loadable({
+  loader: () => import("./containers/Finish"),
+  loading: Loading,
+  delay: 500
+});
+
 export default () => (
   <Router>
     <Switch>
       <Route exact path="/contracts/:status" component={Dashboard} />
       <Route exact path="/detail/:id" component={Detail} />
       <Route exact path="/sign/:id" component={Sign} />
+      <Route exact path="/finish/:id" component={Finish} />
       <Route exact path="/create" component={Create} />
     </Switch>
   </Router>
