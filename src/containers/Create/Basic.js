@@ -59,6 +59,7 @@ class Basic extends React.Component {
           {getFieldDecorator("partyB", {
             rules: [{ required: true, message: "请选择乙方" }]
           })(
+            // add here
             <Select placeholder="请选择乙方">
               <Option value="0xE97aB6A40a5f126076e524d984C4Ce426d9C0F40">
                 jmmc公司
@@ -68,6 +69,9 @@ class Basic extends React.Component {
               </Option>
               <Option value="0xB80Cd42c0Fd3BA19C5094833db6a592407316346">
                 米高
+              </Option>
+              <Option value="0xFf1136b2Df661C4Bc582a96eb836A3C35B0983Ab">
+                陈嘉健
               </Option>
             </Select>
           )}
