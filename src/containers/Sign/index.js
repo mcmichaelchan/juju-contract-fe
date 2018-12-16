@@ -30,7 +30,11 @@ const Step = Steps.Step;
 class Index extends React.Component {
   componentDidMount() {
     this.props.menu.changeIndex("0");
-    this.props.contract.initDetail(this.props.match.params.id);
+    this.props.contract.initDetail(
+      this.props.match.params.id,
+      this.props.history,
+      true
+    );
   }
   render() {
     const { contract } = this.props;

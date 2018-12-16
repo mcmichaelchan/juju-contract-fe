@@ -37,7 +37,7 @@ class contractSotre {
     });
   }
   @action.bound
-  async initDetail(address) {
+  async initDetail(address, history = null, isSignPage = false) {
     this.address = address;
     this.isLoading = true;
     try {
@@ -57,6 +57,12 @@ class contractSotre {
       key.forEach((item, index) => {
         this.detail[item] = detail[index];
       });
+      if (isSignPage) {
+        if (this.detail.status === "finish") {
+          history.push(`/success/${this.address}`);
+          return;
+        }
+      }
       const historyLength = await getContract(this.address)
         .methods.getHistoryLength()
         .call();

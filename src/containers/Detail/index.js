@@ -91,7 +91,7 @@ class Index extends React.Component {
               <TabPane tab="操作记录" key="1">
                 <List
                   itemLayout="horizontal"
-                  dataSource={contract.history}
+                  dataSource={contract.history.reverse()}
                   renderItem={item => (
                     <List.Item>
                       <List.Item.Meta
